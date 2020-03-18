@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TheCallCenter.Data;
+using TheCallCenter.Hubs;
 
 namespace TheCallCenter
 {
@@ -53,6 +54,8 @@ namespace TheCallCenter
 
       app.UseStaticFiles();
       app.UseCookiePolicy();
+
+      app.UseSignalR(routes => { routes.MapHub<CallCenterHub>("/callcenter"); });
 
       app.UseMvc(routes =>
       {
