@@ -15,9 +15,9 @@ namespace TheCallCenter.Controllers
   public class HomeController : Controller
   {
     private readonly CallCenterContext _ctx;
-    private readonly IHubContext<CallCenterHub> _hubContext;
+    private readonly IHubContext<CallCenterHub, ICallCenterHub> _hubContext;
 
-    public HomeController(CallCenterContext ctx, IHubContext<CallCenterHub> hubContext)
+    public HomeController(CallCenterContext ctx, IHubContext<CallCenterHub, ICallCenterHub> hubContext)
     {
         _ctx = ctx;
         _hubContext = hubContext;
@@ -43,7 +43,7 @@ namespace TheCallCenter.Controllers
             ModelState.Clear();
 
             // call the hub to alert all the clients
-            await _hubContext.Clients.All.SendAsync("NewCallReceived", model);
+            await _hubContext.Clients.Groups("CallCenters").NewCallReceived(model);
           }
           else
           {

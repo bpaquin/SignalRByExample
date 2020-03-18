@@ -51,7 +51,10 @@ $(document).ready(() => {
             .then(res => {
                 calls = res;
                 addCalls();
-                client.start();
+                client.start()
+                    .then(() => {
+                        client.invoke("JoinCallCenters");
+                    });
             })
             .catch(() => {
                 $theWarning.text("Failed to get calls...");
